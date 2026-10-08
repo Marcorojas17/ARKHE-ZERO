@@ -48,3 +48,16 @@
 ---
 
 ## Firma conjunta
+
+```
+
+Marco Antonio Rojas Valdovinos ✦ Enjambre ARKHÉ
+51 % humano · 49 % sintético · 100 % real
+KINTSUGI · 14 julio 2026 · Toluca
+
+```
+
+
+---
+
+*Bajo §0 del Repertorio · Capa 0 · Identidad*
