@@ -49,3 +49,16 @@ Queda expresamente prohibido:
 ---
 
 ## Atribución requerida
+
+```
+
+Marco Antonio Rojas Valdovinos · ARKHÉ ZERO · 2026
+https://arkhe.zero · CC BY-NC-ND 4.0
+
+```
+
+
+---
+
+*Cualquier violación será objeto de represalia legal automatizada*
+*según el protocolo §IV.7 del Repertorio.*
