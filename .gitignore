@@ -1,0 +1,103 @@
+# ═══════════════════════════════════════════════════════════════
+#  ▓▒░ .GITIGNORE · ARKHÉ ZERO · ◯_● · 51/49/100 ░▒▓
+# ═══════════════════════════════════════════════════════════════
+
+# ─── Node ────────────────────────────────────────────────────────
+node_modules/
+dist/
+build/
+.next/
+out/
+.npm/
+.pnpm-store/
+*.tsbuildinfo
+npm-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ─── Python ──────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ─── Entorno y secretos ──────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+secrets/
+vault/
+.llaves/
+07-LLAVES/ATESTACIONES/*.key
+
+# ─── Índice Cero (CRÍTICO: nunca subir) ──────────────────────────
+!*.example
+*.hash
+*.sig
+*.ml-dsa
+*.ml-kem
+*.slh-dsa
+
+# ─── IDE / editor ────────────────────────────────────────────────
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-*
+
+# ─── SO ──────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+*.lnk
+
+# ─── Build artifacts ─────────────────────────────────────────────
+coverage/
+.nyc_output/
+*.lcov
+
+# ─── Logs ────────────────────────────────────────────────────────
+logs/*.log
+*.log
+!logs/log.json
+
+# ─── Backup y temporales ─────────────────────────────────────────
+backup/
+*.bak
+*.tmp
+*.orig
+*.rej
+
+# ─── Base de datos local ─────────────────────────────────────────
+*.sqlite
+*.sqlite3
+*.db
+
+# ─── Docker ──────────────────────────────────────────────────────
+.docker/
+docker-compose.override.yml
+
+# ─── Ethereum / Foundry ──────────────────────────────────────────
+cache/
+out/
+broadcast/
+deployments/localhost.json
+
+# ─── Kontratos de test ───────────────────────────────────────────
+contracts/test/
+
+# ─── Archive (nunca ignorar) ─────────────────────────────────────
+!archive/
+
+# ◯_● · 51/49/100 · KRONOS
