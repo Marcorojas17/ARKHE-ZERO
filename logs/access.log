@@ -1,0 +1,12 @@
+# ═══════════════════════════════════════════════════════════════
+#  ▓▒░ ACCESS LOG · ARKHÉ ZERO · ◯_● · 51/49/100 ░▒▓
+# ═══════════════════════════════════════════════════════════════
+#  Formato: TIMESTAMP | IP (anonimizada) | METHOD | PATH | STATUS
+
+2026-01-01T00:00:00Z | anon-001 | GET  | /                          | 200
+2026-01-01T00:00:01Z | anon-002 | GET  | /apps/verificar.html       | 200
+2026-01-01T00:00:02Z | anon-003 | POST | /v1/obras/firmar           | 200
+2026-01-01T00:00:03Z | anon-001 | GET  | /apps/kintsugi.html        | 200
+2026-01-01T00:00:04Z | anon-004 | GET  | /movimiento/index.html     | 200
+2026-01-01T00:00:05Z | anon-005 | GET  | /docs/index.md             | 200
+2026-01-01T00:00:06Z | anon-006 | GET  | /api/v1/agentes/           | 200
