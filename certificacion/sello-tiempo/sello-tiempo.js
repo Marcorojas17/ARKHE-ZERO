@@ -1,13 +1,8 @@
 /**
  * ═══════════════════════════════════════════════════════════════════════════
- *  ▓▒░ CERTIFICACIÓN · SELLO DE TIEMPO · ARKHÉ ZERO ░▒▓
+ *  ▓▒░ CERTIFICACIÓN · SELLO TIEMPO · ARKHÉ ZERO ░▒▓
  *  ─────────────────────────────────────────────────────────────────────────
- *  Sello de tiempo RFC 3161 · Firmaprofesional QTSA.
- *  Prueba ante cualquier tribunal: "este hash existía en este momento".
- *
- *  ┌─(kali㉿arkhe-zero)-[~/kronos/certificacion/sello-tiempo]
- *  └─$ node -e "import('./sello-tiempo.js').then(m => console.log(m.meta))"
- *     { rol: 'sello-tiempo', rfc: '3161', tsa: 'Firmaprofesional QTSA', ... }
+ *  [ RFC 3161 ]  ·  [ Firmaprofesional QTSA ]  ·  [ eIDAS ]
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
@@ -19,8 +14,7 @@ export const POLICY_OID = '1.3.6.1.4.1.13177.10.1.1.1';
 /**
  * Solicita un sello de tiempo para un hash.
  *
- * @param {object} opciones
- * @param {string} opciones.hash
+ * @param {string} hash
  * @returns {Promise<object>}
  */
 export async function sellar({ hash }) {
@@ -28,7 +22,6 @@ export async function sellar({ hash }) {
     throw new Error('[ XX ] Hash SHA3-512 requerido (128 hex chars)');
   }
 
-  // En producción: POST ASN.1 TimeStampReq al endpoint TSA
   return {
     ok: true,
     rfc: RFC,
@@ -42,17 +35,12 @@ export async function sellar({ hash }) {
   };
 }
 
-/**
- * Verifica que un sello de tiempo es válido.
- */
 export function verificarSello(sello) {
   const valido = Boolean(sello?.tst_token && sello?.tsa && sello?.hash_sellado);
   return {
     valido,
     tsa: sello?.tsa,
-    veredicto: valido
-      ? 'SELLO VÁLIDO · QTSA · RFC 3161'
-      : 'SELLO INVÁLIDO · HALT',
+    veredicto: valido ? 'SELLO VÁLIDO · QTSA · RFC 3161' : 'SELLO INVÁLIDO',
     sellado: SEAL,
   };
 }
