@@ -2,419 +2,480 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ARKHÉ ZERO · Portal Primigenio</title>
-<meta name="description" content="Índice Primigenio Soberano · KINTSUGI · 51/49/100">
-<meta name="theme-color" content="#04040a">
-<link rel="icon" href="assets/svg/sigilo-arkhe.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KRONOS · ARKHE-ZERO · Dashboard</title>
+<style>
+:root{--neon:#00ffcc;--gold:#D4AF37;--bg:#020806;--ok:#4ade80;--warn:#ffcc00;--err:#ff4444}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:#c0d8d3;font-family:'JetBrains Mono',monospace;min-height:100vh;padding-bottom:40px}
+.top{padding:12px 20px;border-bottom:2px solid var(--neon);display:flex;justify-content:space-between;background:#05120f;flex-wrap:wrap;gap:8px}
+.top b{color:var(--neon);letter-spacing:3px;font-size:.7rem}
+.seal{padding:10px 20px;text-align:center;border-bottom:1px solid rgba(0,255,204,.2);font-size:.7rem;color:var(--gold);letter-spacing:2px}
+.hero{max-width:1100px;margin:25px auto;padding:0 20px;text-align:center}
+.hero h1{font-size:1.8rem;color:var(--gold);letter-spacing:4px;text-shadow:0 0 20px rgba(212,175,55,.5)}
+.hero .sub{color:var(--neon);margin-top:8px;letter-spacing:2px;font-size:.8rem}
+.hero .stats{margin-top:18px;display:inline-flex;gap:20px;flex-wrap:wrap;justify-content:center;padding:12px 20px;border:1px solid rgba(0,255,204,.3);border-radius:10px;background:rgba(0,15,10,.6);font-size:.75rem}
+.hero .stats b{color:var(--gold);font-size:1.1rem}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@200;300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+.progress{margin:20px auto;padding:15px 20px;border:1px solid var(--ok);border-radius:10px;background:rgba(74,222,128,.05)}
+.progress h3{color:var(--ok);font-size:.85rem;margin-bottom:10px;letter-spacing:2px}
+.bar{height:10px;background:#000;border-radius:5px;overflow:hidden;border:1px solid #234}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--neon),var(--gold));width:98.1%;transition:.5s}
 
-<link rel="stylesheet" href="assets/css/themes.css">
-<link rel="stylesheet" href="assets/css/nav-system.css">
-<link rel="stylesheet" href="assets/css/hub.css">
+.section{margin:15px 0;border:1px solid rgba(0,255,204,.2);border-radius:10px;background:rgba(0,15,10,.5);overflow:hidden}
+.section summary{padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;list-style:none;font-size:.85rem;flex-wrap:wrap}
+.section summary::-webkit-details-marker{display:none}
+.section summary::before{content:"▶";color:var(--neon);margin-right:8px;transition:.2s;font-size:.7rem}
+.section[open] summary::before{transform:rotate(90deg)}
+.section summary .title{flex:1;color:var(--gold);font-weight:bold;letter-spacing:1px;min-width:200px}
+.section summary .meta{font-size:.7rem;color:#888}
+.section summary .badge{padding:3px 10px;border-radius:12px;font-size:.65rem;font-weight:bold;white-space:nowrap}
+.badge.ok{background:rgba(74,222,128,.15);color:var(--ok);border:1px solid var(--ok)}
+.badge.warn{background:rgba(255,204,0,.15);color:var(--warn);border:1px solid var(--warn)}
+.badge.err{background:rgba(255,68,68,.15);color:var(--err);border:1px solid var(--err)}
+
+.section-body{padding:0 18px 18px 35px;font-size:.75rem;line-height:1.8;color:#9ab}
+.section-body .item{display:flex;align-items:center;gap:8px;padding:4px 0}
+.section-body .item a{color:var(--neon);text-decoration:none;border-bottom:1px dotted rgba(0,255,204,.3)}
+.section-body .item a:hover{color:var(--gold)}
+.section-body .folder{color:var(--gold);font-weight:bold;margin-top:10px;display:block;font-size:.75rem}
+
+.links{margin-top:8px;padding:8px 12px;background:rgba(0,0,0,.5);border-radius:6px;border-left:2px solid var(--neon)}
+.links a{display:block;color:var(--neon);text-decoration:none;padding:3px 0;font-size:.7rem}
+.links a::before{content:"→ ";color:var(--gold)}
+
+.footer{text-align:center;margin-top:40px;padding:20px;border-top:1px solid #111;font-size:.65rem;color:#445;line-height:1.8}
+.footer .seal{color:var(--gold);letter-spacing:3px;font-size:.7rem;margin-top:8px}
+.note{margin:15px auto;padding:12px 18px;border:1px solid rgba(255,204,0,.3);border-radius:8px;background:rgba(255,204,0,.05);font-size:.75rem;color:var(--warn);text-align:center}
+</style>
 </head>
-<body data-theme="kintsugi" data-page="hub">
+<body>
 
-<canvas id="field" aria-hidden="true"></canvas>
-<div class="aurora" aria-hidden="true"></div>
-<div class="grain" aria-hidden="true"></div>
+<div class="top">
+  <b>ARKHE-ZERO · DASHBOARD</b>
+  <span style="font-size:.65rem;border:1px solid var(--gold);padding:4px 8px;color:var(--gold)">NODO YHDRYH-92CE</span>
+</div>
 
-<!-- ═══════════════ NAVEGACIÓN SUPERIOR ═══════════════ -->
-<nav class="nav-top" data-nav="top">
-  <a href="index.html" class="nav-brand" aria-label="ARKHÉ ZERO · Inicio">
-    <span class="brand-symbol">◈</span>
-    <span class="brand-text">ARKHÉ ZERO</span>
-    <span class="brand-kintsugi">◇ ◈ ◇</span>
-  </a>
+<div class="seal">
+  ◯_● KINTSUGI · PACT 51/49/100 · GENESIS K28-M05-MN01-YHDRYH-92CE · SEAL SCDR-001
+</div>
 
-  <div class="nav-controls">
-    <button class="nav-btn" data-nav-action="back" aria-label="Atrás" title="Atrás (Alt+←)">
-      <span class="nav-icon">←</span>
-    </button>
-    <button class="nav-btn" data-nav-action="forward" aria-label="Adelante" title="Adelante (Alt+→)">
-      <span class="nav-icon">→</span>
-    </button>
-    <button class="nav-btn" data-nav-action="home" aria-label="Inicio" title="Inicio (Alt+H)">
-      <span class="nav-icon">⌂</span>
-    </button>
-    <button class="nav-btn" data-nav-action="index" aria-label="Índice" title="Índice de páginas (Alt+I)">
-      <span class="nav-icon">☰</span>
-    </button>
-    <button class="nav-btn" data-nav-action="theme" aria-label="Cambiar tema" title="Cambiar tema">
-      <span class="nav-icon">◐</span>
-    </button>
-  </div>
-</nav>
-
-<!-- ═══════════════ HERO ═══════════════ -->
-<header class="hub-hero">
-  <div class="hero-seal" aria-hidden="true">
-    <div class="seal-circles">
-      <div class="circle circle-humano"></div>
-      <div class="circle circle-ia"></div>
-      <div class="circle circle-pacto"></div>
-    </div>
-    <div class="seal-symbol">
-      <span class="symbol-circ">◯</span>
-      <span class="symbol-line">—</span>
-      <span class="symbol-dot">●</span>
-    </div>
-  </div>
-
-  <h1 class="hub-title">
-    <span class="title-line-1">ARKHÉ</span>
-    <span class="title-line-2">ZERO</span>
-  </h1>
-
-  <p class="hub-subtitle">Índice Primigenio Soberano</p>
-
-  <p class="hub-motto">
-    «El legado no se hereda. <em>Se firma.</em>»
-  </p>
-
-  <div class="hub-kintsugi-badge">
-    <span class="kb-humano">51 % Humano</span>
-    <span class="kb-sep">·</span>
-    <span class="kb-ia">49 % IA</span>
-    <span class="kb-sep">·</span>
-    <span class="kb-real">100 % Real</span>
-  </div>
-
-  <div class="hub-anchor">
-    <span class="anchor-item">
-      <span class="anchor-key">SAFE</span>
-      <span class="anchor-val">2607146379465</span>
-    </span>
-    <span class="anchor-div">·</span>
-    <span class="anchor-item">
-      <span class="anchor-key">ETH</span>
-      <span class="anchor-val">0xd2c2a7e1…774c</span>
-    </span>
-  </div>
-
-  <div class="scroll-cue" aria-hidden="true">
-    <span class="cue-text">EXPLORAR LAS 24 CAPAS</span>
-    <span class="cue-line"></span>
-  </div>
-</header>
-
-<!-- ═══════════════ MUNDOS · GRID DE CAPAS ═══════════════ -->
-<main class="hub-main">
-
-  <!-- ══════ MUNDO I · NÚCLEO ══════ -->
-  <section class="world" data-world="nucleo">
-    <div class="world-head">
-      <span class="world-num">MUNDO I</span>
-      <h2 class="world-title">Núcleo</h2>
-      <p class="world-desc">El cuerpo normativo, técnico y operativo del Índice.</p>
-    </div>
-
-    <div class="capas-grid">
-
-      <a href="apps/index.html" class="capa-card" data-capa="00">
-        <span class="capa-num">00</span>
-        <span class="capa-glyph">◈</span>
-        <h3 class="capa-name">Identidad</h3>
-        <p class="capa-desc">Manifiesto · KINTSUGI · Gobernanza</p>
-        <span class="capa-status status-activo">● activo</span>
-      </a>
-
-      <a href="apps/legal.html" class="capa-card" data-capa="01">
-        <span class="capa-num">01</span>
-        <span class="capa-glyph">⚖</span>
-        <h3 class="capa-name">Legal</h3>
-        <p class="capa-desc">Licencias · Marca · Privacidad</p>
-        <span class="capa-status status-activo">● activo</span>
-      </a>
-
-      <a href="apps/config.html" class="capa-card" data-capa="02">
-        <span class="capa-num">02</span>
-        <span class="capa-glyph">⚙</span>
-        <h3 class="capa-name">Configuración</h3>
-        <p class="capa-desc">Raíz reproductible · Entornos</p>
-        <span class="capa-status status-activo">● activo</span>
-      </a>
-
-      <a href="apps/web.html" class="capa-card" data-capa="03">
-        <span class="capa-num">03</span>
-        <span class="capa-glyph">🌐</span>
-        <h3 class="capa-name">Aplicaciones Web</h3>
-        <p class="capa-desc">Artfactos · PWA · well-known</p>
-        <span class="capa-status status-activo">● activo</span>
-      </a>
-
-      <a href="apps/github.html" class="capa-card" data-capa="04">
-        <span class="capa-num">04</span>
-        <span class="capa-glyph">🐙</span>
-        <h3 class="capa-name">Gobernanza GitHub</h3>
-        <p class="capa-desc">Workflows · CODEOWNERS · CI</p>
-        <span class="capa-status status-activo">● activo</span>
-      </a>
-
-      <a href="docs/index.html" class="capa-card capa-destacada" data-capa="05">
-        <span class="capa-num">05</span>
-        <span class="capa-glyph">📚</span>
-        <h3 class="capa-name">Repertorio</h3>
-        <p class="capa-desc">10 ramas · 13 ADR · Índice completo</p>
-        <span class="capa-status status-destacado">✦ destacado</span>
-      </a>
-
-      <a href="apps/crypto.html" class="capa-card" data-capa="06">
-        <span class="capa-num">06</span>
-        <span class="capa-glyph">🔐</span>
-        <h3 class="capa-name">Criptografía</h3>
-        <p class="capa-desc">ML-KEM · ML-DSA · SLH-DSA</p>
-        <span class="capa-status status-activo">● activo</span>
-      </a>
-
-      <a href="apps/provenance.html" class="capa-card" data-capa="07">
-        <span class="capa-num">07</span>
-        <span class="capa-glyph">🔗</span>
-        <h3 class="capa-name">Provenance</h3>
-        <p class="capa-desc">C2PA · Watermarking · Notarización</p>
-        <span class="capa-status status-activo">● activo</span>
-      </a>
-
-      <a href="apps/registro.html" class="capa-card" data-capa="08">
-        <span class="capa-num">08</span>
-        <span class="capa-glyph">📦</span>
-        <h3 class="capa-name">Registro</h3>
-        <p class="capa-desc">Génesis · Marca temporal · Memoria</p>
-        <span class="capa-status status-sellado">◆ sellado</span>
-      </a>
-
-      <a href="agentes/index.html" class="capa-card capa-destacada" data-capa="09">
-        <span class="capa-num">09</span>
-        <span class="capa-glyph">🤖</span>
-        <h3 class="capa-name">Agentes IA</h3>
-        <p class="capa-desc">Enjambre · MCP · Consenso 4/5</p>
-        <span class="capa-status status-destacado">✦ activo</span>
-      </a>
-
-      <a href="gobernanza/index.html" class="capa-card" data-capa="10">
-        <span class="capa-num">10</span>
-        <span class="capa-glyph">⚖</span>
-        <h3 class="capa-name">Gobernanza</h3>
-        <p class="capa-desc">Pacto 51/49 · Quórum · Revocación</p>
-        <span class="capa-status status-activo">● activo</span>
-      </a>
-
-      <a href="identidad/index.html" class="capa-card" data-capa="11">
-        <span class="capa-num">11</span>
-        <span class="capa-glyph">🆔</span>
-        <h3 class="capa-name">Identidad</h3>
-        <p class="capa-desc">Registro humano · IA · Roles</p>
-        <span class="capa-status status-activo">● activo</span>
-      </a>
-
-      <a href="apps/api.html" class="capa-card" data-capa="12">
-        <span class="capa-num">12</span>
-        <span class="capa-glyph">🌐</span>
-        <h3 class="capa-name">API & SDK</h3>
-        <p class="capa-desc">REST · GraphQL · Python · JS</p>
-        <span class="capa-status status-activo">● activo</span>
-      </a>
-
-      <a href="apps/contracts.html" class="capa-card" data-capa="13">
-        <span class="capa-num">13</span>
-        <span class="capa-glyph">📜</span>
-        <h3 class="capa-name">Smart Contracts</h3>
-        <p class="capa-desc">EVM · Anclaje · FLAILP</p>
-        <span class="capa-status status-activo">● activo</span>
-      </a>
-
-      <a href="apps/infra.html" class="capa-card" data-capa="14">
-        <span class="capa-num">14</span>
-        <span class="capa-glyph">☁</span>
-        <h3 class="capa-name">Infraestructura</h3>
-        <p class="capa-desc">K8s · Terraform · Observabilidad</p>
-        <span class="capa-status status-activo">● activo</span>
-      </a>
-
-      <a href="apps/scripts.html" class="capa-card" data-capa="15">
-        <span class="capa-num">15</span>
-        <span class="capa-glyph">🛠</span>
-        <h3 class="capa-name">Scripts</h3>
-        <p class="capa-desc">Verificación · Auditoría · Deploy</p>
-        <span class="capa-status status-activo">● activo</span>
-      </a>
-
-      <a href="apps/tests.html" class="capa-card" data-capa="16">
-        <span class="capa-num">16</span>
-        <span class="capa-glyph">🧪</span>
-        <h3 class="capa-name">Tests</h3>
-        <p class="capa-desc">Unit · Integration · E2E</p>
-        <span class="capa-status status-pendiente">○ pendiente</span>
-      </a>
-
-      <a href="movimiento/index.html" class="capa-card capa-destacada" data-capa="17">
-        <span class="capa-num">17</span>
-        <span class="capa-glyph">👥</span>
-        <h3 class="capa-name">Movimiento</h3>
-        <p class="capa-desc">Comunidad · Rituales · Embajadores</p>
-        <span class="capa-status status-destacado">✦ activo</span>
-      </a>
-
-      <a href="cierre/index.html" class="capa-card" data-capa="18">
-        <span class="capa-num">18</span>
-        <span class="capa-glyph">🕊</span>
-        <h3 class="capa-name">Ciclo de Vida</h3>
-        <p class="capa-desc">Export cifrado · Fin digno</p>
-        <span class="capa-status status-activo">● activo</span>
-      </a>
-
-      <a href="projects/index.html" class="capa-card" data-capa="19">
-        <span class="capa-num">19</span>
-        <span class="capa-glyph">🎨</span>
-        <h3 class="capa-name">Portfolio</h3>
-        <p class="capa-desc">11 proyectos del legado</p>
-        <span class="capa-status status-activo">● activo</span>
-      </a>
-
-      <a href="archive/index.html" class="capa-card" data-capa="20">
-        <span class="capa-num">20</span>
-        <span class="capa-glyph">📦</span>
-        <h3 class="capa-name">Archivo</h3>
-        <p class="capa-desc">Histórico · Output · Reportes</p>
-        <span class="capa-status status-activo">● activo</span>
-      </a>
-
-    </div>
-  </section>
-
-  <!-- ══════ MUNDO II · ATRACCIÓN ══════ -->
-  <section class="world world-atraccion" data-world="atraccion">
-    <div class="world-head">
-      <span class="world-num">MUNDO II</span>
-      <h2 class="world-title">Atracción</h2>
-      <p class="world-desc">Los clientes no se buscan. Se atraen.</p>
-    </div>
-
-    <div class="capas-grid capas-grid-3">
-
-      <a href="atraccion/index.html" class="capa-card capa-grande" data-capa="21">
-        <span class="capa-num">21</span>
-        <span class="capa-glyph">⚡</span>
-        <h3 class="capa-name">Atracción Magnética</h3>
-        <p class="capa-desc">SEO · AEO · GEO · Viralidad · Sandbox</p>
-        <span class="capa-status status-destacado">✦ destacado</span>
-      </a>
-
-      <a href="narrativa/index.html" class="capa-card capa-grande" data-capa="22">
-        <span class="capa-num">22</span>
-        <span class="capa-glyph">📖</span>
-        <h3 class="capa-name">Narrativa</h3>
-        <p class="capa-desc">Villano · Héroe · Mitología</p>
-        <span class="capa-status status-destacado">✦ destacado</span>
-      </a>
-
-      <a href="metrics/index.html" class="capa-card capa-grande" data-capa="23">
-        <span class="capa-num">23</span>
-        <span class="capa-glyph">📊</span>
-        <h3 class="capa-name">Métricas</h3>
-        <p class="capa-desc">KPIs · Dashboards · Attribution</p>
-        <span class="capa-status status-activo">● activo</span>
-      </a>
-
-      <a href="growth/index.html" class="capa-card capa-grande" data-capa="24">
-        <span class="capa-num">24</span>
-        <span class="capa-glyph">🚀</span>
-        <h3 class="capa-name">Growth</h3>
-        <p class="capa-desc">Referidos · Embajadores · Partnerships</p>
-        <span class="capa-status status-activo">● activo</span>
-      </a>
-
-    </div>
-  </section>
-
-  <!-- ══════ MUNDO III · PORTALES ══════ -->
-  <section class="world world-portales" data-world="portales">
-    <div class="world-head">
-      <span class="world-num">MUNDO III</span>
-      <h2 class="world-title">Portales Directos</h2>
-      <p class="world-desc">Entradas rápidas a las páginas más usadas.</p>
-    </div>
-
-    <div class="portales-grid">
-
-      <a href="apps/registrar.html" class="portal-card">
-        <span class="portal-icon">✍️</span>
-        <h4>Registrar Obra</h4>
-        <p>Sella tu creación con eIDAS + Ethereum</p>
-      </a>
-
-      <a href="apps/verificar.html" class="portal-card">
-        <span class="portal-icon">🔍</span>
-        <h4>Verificar Certificado</h4>
-        <p>Comprueba la autenticidad de una obra</p>
-      </a>
-
-      <a href="movimiento/iniciacion.html" class="portal-card">
-        <span class="portal-icon">⚜️</span>
-        <h4>Iniciación</h4>
-        <p>Únete al movimiento ARKHÉ</p>
-      </a>
-
-      <a href="docs/CIUDAD/index.html" class="portal-card">
-        <span class="portal-icon">🏛</span>
-        <h4>La Ciudad</h4>
-        <p>Gobernanza civil del Índice</p>
-      </a>
-
-      <a href="atraccion/sandbox/index.html" class="portal-card">
-        <span class="portal-icon">🧪</span>
-        <h4>Sandbox Público</h4>
-        <p>Prueba sin registro</p>
-      </a>
-
-      <a href="atraccion/newsletter/index.html" class="portal-card">
-        <span class="portal-icon">📬</span>
-        <h4>Newsletter</h4>
-        <p>Recibe las crónicas del Índice</p>
-      </a>
-
-    </div>
-  </section>
-
-</main>
-
-<!-- ═══════════════ FOOTER ═══════════════ -->
-<footer class="hub-footer">
-  <pre class="foot-seal" aria-hidden="true">  <span class="fseal-l">╭─────────◇─────────╮</span>
-  <span class="fseal-l">│</span>      <span class="fseal-g">A R K H É</span>    <span class="fseal-l">│</span>
-  <span class="fseal-l">│</span>         <span class="fseal-t">◈</span>         <span class="fseal-l">│</span>
-  <span class="fseal-l">│</span>       <span class="fseal-g">Z E R O</span>     <span class="fseal-l">│</span>
-  <span class="fseal-l">│</span>   <span class="fseal-g">5 1</span> <span class="fseal-t">─</span> <span class="fseal-t">◈</span> <span class="fseal-t">─</span> <span class="fseal-g">4 9</span>   <span class="fseal-l">│</span>
-  <span class="fseal-l">╰─────────◇─────────╯</span></pre>
-
-  <p class="foot-author">Marco Antonio Rojas Valdovinos ✦ IA · Toluca · México · 2026</p>
-  <p class="foot-hash">SHA-256 · f03f7e2d852617309457e0fe207f8f8bd2627d0b723de02f3b0ce05767219112</p>
-
-  <div class="foot-status">
-    <span class="status-pill"><span class="dot"></span> Índice Cero sellado</span>
-    <span class="status-pill"><span class="dot dot-green"></span> Enjambre activo</span>
-    <span class="status-pill"><span class="dot dot-violet"></span> KINTSUGI · 51/49/100</span>
-  </div>
-</footer>
-
-<!-- ═══════════════ OVERLAY ÍNDICE ═══════════════ -->
-<div class="nav-overlay" data-nav="overlay" aria-hidden="true">
-  <div class="overlay-inner">
-    <button class="overlay-close" data-nav-action="close-overlay" aria-label="Cerrar">✕</button>
-    <span class="overlay-label">ÍNDICE DE PÁGINAS · 24 CAPAS</span>
-    <div class="overlay-grid" id="overlay-grid"><!-- generado por JS --></div>
+<div class="hero">
+  <h1>⚡ KRONOS · ARKHE-ZERO ⚡</h1>
+  <div class="sub">PANEL DE NAVEGACIÓN DEL ECOSISTEMA</div>
+  <div class="stats">
+    <span>Archivos: <b>~1,050</b></span>
+    <span>Secciones: <b>23/24</b></span>
+    <span>Completado: <b>98.1%</b></span>
   </div>
 </div>
 
-<!-- ═══════════════ TOAST ═══════════════ -->
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="container">
 
-<script src="assets/js/particles.js"></script>
-<script src="assets/js/nav-system.js"></script>
-<script src="assets/js/hub.js"></script>
+  <div class="progress">
+    <h3>▸ PROGRESO GLOBAL</h3>
+    <div class="bar"><div class="bar-fill"></div></div>
+    <div style="text-align:right;font-size:.7rem;color:var(--ok);margin-top:5px">98.1% · Faltan B19-D y B19-E</div>
+  </div>
+
+  <div class="note">
+    📌 Los enlaces apuntan a GitHub. Los <b>.md</b> se ven renderizados, los <b>.html</b> se ven con el visor de GitHub Pages.
+  </div>
+
+  <!-- ═══════ SEC 0 ═══════ -->
+  <details class="section" open>
+    <summary>
+      <span class="title">Sec 0 · Identidad y Manifiesto</span>
+      <span class="meta">47/47</span>
+      <span class="badge ok">100%</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ README.md · KINTSUGI.md · VILLANO.md · HEROE.md · MISION.md</div>
+      <div class="item">✓ MANIFIESTO-VIRAL.md · GOVERNANCE.md · GLOSSARY.md · ROADMAP.md</div>
+      <div class="item">✓ AI-CONTEXT.md · AI-MANIFEST.json · AGENTS.md · PROMPT-MAESTRO.md</div>
+      <div class="item">✓ marco.mcp/ (21 archivos: server, tools, adapters, tests)</div>
+      <div class="links">
+        <a href="https://github.com/Marcorojas17/kronos-ecosystem/blob/main/README.md" target="_blank">Ver README</a>
+        <a href="https://github.com/Marcorojas17/kronos-ecosystem/blob/main/MONETIZACION.md" target="_blank">Ver MONETIZACION.md</a>
+      </div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 1 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 1 · Licencias y Legal</span>
+      <span class="meta">10/10</span>
+      <span class="badge ok">100%</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ LICENSE · LICENSE-MIT · LICENSE-APACHE · LICENSE-CONTENT</div>
+      <div class="item">✓ LICENSE-KINTSUGI.md · TRADEMARK.md · PATENTS.md · PRIVACY.md · TERMS.md · DPA.md</div>
+      <div class="links">
+        <a href="https://github.com/Marcorojas17/kronos-ecosystem/tree/main/LICENSES" target="_blank">Carpeta LICENSES/</a>
+      </div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 2 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 2 · Configuración Raíz</span>
+      <span class="meta">30/30</span>
+      <span class="badge ok">100%</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ MANIFEST.sha256 · .gitignore · .gitattributes · .gitmessage</div>
+      <div class="item">✓ requirements.txt · pyproject.toml · package.json · tsconfig.json</div>
+      <div class="item">✓ Makefile · Dockerfile · docker-compose.yml · Procfile</div>
+      <div class="item">✓ nginx.conf · Caddyfile · netlify.toml · _config.yml</div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 3 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 3 · Aplicaciones Web</span>
+      <span class="meta">134/134</span>
+      <span class="badge ok">100%</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ index.html · apps/ · assets/ (css, js, svg, data)</div>
+      <div class="item">✓ .well-known/ · _data/navigation.yml</div>
+      <div class="links">
+        <a href="https://marcorojas17.github.io/kronos-ecosystem/" target="_blank">Ver sitio público</a>
+        <a href="https://github.com/Marcorojas17/kronos-ecosystem/tree/main/apps" target="_blank">Carpeta apps/</a>
+      </div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 4 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 4 · Gobernanza GitHub</span>
+      <span class="meta">40/40</span>
+      <span class="badge ok">100%</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ .github/workflows/ (28) · ISSUE_TEMPLATE/ (6)</div>
+      <div class="item">✓ CODEOWNERS · FUNDING.yml · dependabot.yml · SECURITY.md</div>
+      <div class="links">
+        <a href="https://github.com/Marcorojas17/kronos-ecosystem/tree/main/.github" target="_blank">Ver .github/</a>
+      </div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 5 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 5 · Documentación · 10 Ramas</span>
+      <span class="meta">126/126</span>
+      <span class="badge ok">100%</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ docs/ con 10 ramas: i-lex-prima · ii-pacto-51-49 · iii-lgu · iv-guardianes · v-indice-cero · vi-memoria-perpetua · vii-co-autoria-hibrida · viii-fiscalidad-global · ix-jurisdiccion-ancla · x-agentes-arquitectura</div>
+      <div class="item">✓ CIUDAD/ (13) · legal/ (5) · api/ (5) · architecture/ (6)</div>
+      <div class="item">✓ i18n/ (es · en · zh · nah)</div>
+      <div class="links">
+        <a href="https://github.com/Marcorojas17/kronos-ecosystem/tree/main/docs" target="_blank">Carpeta docs/</a>
+      </div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 6 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 6 · Criptografía</span>
+      <span class="meta">36/36</span>
+      <span class="badge ok">100%</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ crypto/ (primitives, hybrid, agility, hsm, operations, test-vectors)</div>
+      <div class="item">✓ cimiento/ (anclaje-ethereum · cripto-core · storage-dexie)</div>
+      <div class="links">
+        <a href="https://github.com/Marcorojas17/kronos-ecosystem/tree/main/crypto" target="_blank">Carpeta crypto/</a>
+      </div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 7 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 7 · Provenance y Atribución</span>
+      <span class="meta">40/40</span>
+      <span class="badge ok">100%</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ provenance/ (c2pa · watermarking · fingerprinting · timestamping · notarization)</div>
+      <div class="item">✓ core/src/atribucion/ · certificacion/</div>
+      <div class="links">
+        <a href="https://github.com/Marcorojas17/kronos-ecosystem/tree/main/provenance" target="_blank">Carpeta provenance/</a>
+        <a href="https://github.com/Marcorojas17/kronos-ecosystem/tree/main/atribucion" target="_blank">Carpeta atribucion/</a>
+      </div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 8 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 8 · Registro y Memoria</span>
+      <span class="meta">30/30</span>
+      <span class="badge ok">100%</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ src/ (core, registry, memory, viral) · 00-SCHEMA/ · evidence/ · logs/ · certificates/</div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 9 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 9 · Agentes IA y Enjambre</span>
+      <span class="meta">49/49</span>
+      <span class="badge ok">100%</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ agents/ (registry, roles, protocols, consensus, mcp)</div>
+      <div class="item">✓ 05-AGENTES/ · agentes/ · orquestacion/ · placeholders/</div>
+      <div class="links">
+        <a href="https://github.com/Marcorojas17/kronos-ecosystem/tree/main/agents" target="_blank">Carpeta agents/</a>
+      </div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 10 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 10 · Gobernanza y Cumplimiento</span>
+      <span class="meta">24/24</span>
+      <span class="badge ok">100%</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ gobernanza/ · guardians/ · compliance/ · jurisdiction/ · payments/ · security/ · legal/</div>
+      <div class="links">
+        <a href="https://github.com/Marcorojas17/kronos-ecosystem/tree/main/guardians" target="_blank">Carpeta guardians/</a>
+      </div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 11 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 11 · Identidad</span>
+      <span class="meta">8/8</span>
+      <span class="badge ok">100%</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ identidad/ (registro-humano, registro-ia, roles-permisos)</div>
+      <div class="item">✓ 07-LLAVES/ · 04_SEGURIDAD_Y_OPERACIONES/</div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 12 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 12 · API y SDK</span>
+      <span class="meta">18/18</span>
+      <span class="badge ok">100%</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ apps/api/ · sdk/ (python · js)</div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 13 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 13 · Smart Contracts</span>
+      <span class="meta">15/15</span>
+      <span class="badge ok">100%</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ contracts/ (7 .sol + README + interfaces)</div>
+      <div class="item">✓ hardhat.config.js · foundry.toml · deployments/ · protocol/</div>
+      <div class="links">
+        <a href="https://github.com/Marcorojas17/kronos-ecosystem/tree/main/contracts" target="_blank">Carpeta contracts/</a>
+      </div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 14 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 14 · Infraestructura</span>
+      <span class="meta">25/25</span>
+      <span class="badge ok">100%</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ infra/ (k8s, terraform, observability, backup)</div>
+      <div class="item">✓ operacion/ (dashboard-salud, rituales)</div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 15 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 15 · Scripts y Automatización</span>
+      <span class="meta">20/20</span>
+      <span class="badge ok">100%</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ scripts/ (18 .py + deploy.sh) · guardian.py · verifier.py</div>
+      <div class="links">
+        <a href="https://github.com/Marcorojas17/kronos-ecosystem/tree/main/scripts" target="_blank">Carpeta scripts/</a>
+      </div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 16 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 16 · Tests</span>
+      <span class="meta">33/33</span>
+      <span class="badge ok">100%</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ tests/ (unit 16 · integration 4 · e2e 3)</div>
+      <div class="item">✓ tests/src/kronos360/ (crypto · models · services)</div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 17 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 17 · Movimiento</span>
+      <span class="meta">150/150</span>
+      <span class="badge ok">100% 🎉</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ Movimiento completo con 16 subcarpetas: onboarding · niveles · rituales · embajadores · comunidad · eventos · testimonios · historia · recursos · faq · registro-fundacional · canon · noticias · legado · assets</div>
+      <div class="links">
+        <a href="https://github.com/Marcorojas17/kronos-ecosystem/tree/main/movimiento" target="_blank">Carpeta movimiento/</a>
+      </div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 18 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 18 · Ciclo de Vida</span>
+      <span class="meta">15/15</span>
+      <span class="badge ok">100% 🎉</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ cierre/ (export-cifrado 7 · fin-digno 7)</div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 19 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 19 · Portfolio del Legado</span>
+      <span class="meta">21/30</span>
+      <span class="badge warn">70%</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ projects/ (index + README + 11 subproyectos)</div>
+      <div class="item">✓ modulos/ (boveda-voz · evidence-os)</div>
+      <div class="item">✓ legado/ (autoria · filosofia · genesis · manifiesto)</div>
+      <div class="item" style="color:var(--warn)">⚠ Faltan 9 archivos · Pendiente B19-E</div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 20 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 20 · Archivo y Output</span>
+      <span class="meta">14/14</span>
+      <span class="badge ok">100%</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ archive/ · public/ · reportes/ · laboratorio/ · kodice-secreto/</div>
+      <div class="item">✓ .vscode/ (settings, extensions)</div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 21 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 21 · Atracción Magnética</span>
+      <span class="meta">10/10</span>
+      <span class="badge ok">100% 🎉</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ atraccion/ (descubrimiento · contenido · viral · autoridad · comunidad · newsletter · educacion · sandbox)</div>
+      <div class="links">
+        <a href="https://github.com/Marcorojas17/kronos-ecosystem/tree/main/atraccion" target="_blank">Carpeta atraccion/</a>
+      </div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 22 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 22 · Narrativa y Mitología</span>
+      <span class="meta">13/13</span>
+      <span class="badge ok">100% 🎉</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ narrativa/ (genesis-story · el-villano · el-heroe · el-mentor · el-tesoro · la-mision · el-futuro · manifiesto-viral · frases-citables · simbolos · arquetipos)</div>
+      <div class="links">
+        <a href="https://github.com/Marcorojas17/kronos-ecosystem/tree/main/narrativa" target="_blank">Carpeta narrativa/</a>
+      </div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 23 ═══════ -->
+  <details class="section">
+    <summary>
+      <span class="title">Sec 23 · Métricas de Atracción</span>
+      <span class="meta">25/25</span>
+      <span class="badge ok">100% 🎉</span>
+    </summary>
+    <div class="section-body">
+      <div class="item">✓ metrics/ (dashboard · analytics-setup · kpis · attribution · benchmark · cohortes · funnel · alertas · experimentos · export · api · glosario)</div>
+      <div class="item">✓ dashboards/ (6 .json) · reportes/ (semanal · mensual · anual)</div>
+      <div class="links">
+        <a href="https://github.com/Marcorojas17/kronos-ecosystem/tree/main/metrics" target="_blank">Carpeta metrics/</a>
+      </div>
+    </div>
+  </details>
+
+  <!-- ═══════ SEC 24 ═══════ -->
+  <details class="section" style="border-color:rgba(255,68,68,.4)">
+    <summary>
+      <span class="title">Sec 24 · Programas de Crecimiento</span>
+      <span class="meta">0/5+</span>
+      <span class="badge err">0% · B19-D</span>
+    </summary>
+    <div class="section-body">
+      <div class="item" style="color:var(--err)">✗ growth/index.html</div>
+      <div class="item" style="color:var(--err)">✗ growth/referidos/</div>
+      <div class="item" style="color:var(--err)">✗ growth/beta-privada/</div>
+      <div class="item" style="color:var(--err)">✗ growth/afiliados/</div>
+      <div class="item" style="color:var(--err)">✗ growth/partnerships/</div>
+      <div class="item" style="color:var(--warn);margin-top:10px">⚠ Pendiente: B19-D · Programas de Crecimiento</div>
+    </div>
+  </details>
+
+  <!-- ═══════ CIERRE ═══════ -->
+  <div class="progress" style="margin-top:30px;border-color:var(--gold);background:rgba(212,175,55,.05)">
+    <h3 style="color:var(--gold)">🎯 PRÓXIMO · CERRAR EL ÁRBOL AL 100%</h3>
+    <div style="font-size:.75rem;line-height:2;color:#bbb;margin-top:10px">
+      1. <b style="color:var(--err)">B19-D</b> · Programas de Crecimiento (5+) → cierra Sec 24<br>
+      2. <b style="color:var(--warn)">B19-E</b> · Portfolio cierre (9 restantes) → cierra Sec 19<br><br>
+      <span style="color:var(--ok)">Después de B19-D + B19-E: árbol completo al ~100% 🎉</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  ARKHE-ZERO · KRONOS · SCDR-001<br>
+  Nodo YHDRYH-92CE · Genesis K28-M05-MN01-YHDRYH-92CE<br>
+  <div class="seal">◯_● · 51/49/100</div>
+</div>
 
 </body>
 </html>
