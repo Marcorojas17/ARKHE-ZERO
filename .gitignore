@@ -10,28 +10,16 @@ logs/
 backups/
 *.log
 
-# Sobre privado de sellos (contiene salt)
-# Descomenta si el repo es público:
-# testimonio/sellos/*.json
+# Backups pesados (nunca al repo)
+*.tar.gz
+*.bak
+
+# Sobres privados de sellos (contienen salt_hex)
+testimonio/sellos/*.json
+
+# Respaldos de .git viejos
+.git-viejo-*
 
 # Python
 __pycache__/
 *.pyc
-
-# iSH / Alpine
-.apk/
-
-# Backups locales (nunca al repo)
-arkhe-*.tar.gz
-*.tar.gz
-*.bak
-backups/
-testimonio/sellos/*.json
-
-# Backups locales pesados (nunca al repo)
-backups/
-arkhe-*.tar.gz
-*.tar.gz
-
-# Sobres privados de sellos (salt_hex)
-testimonio/sellos/*.json
