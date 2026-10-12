@@ -26,17 +26,14 @@ def generar_claves(autor):
     priv.write_bytes(sk)
     pub.write_bytes(pk)
     meta.write_text(json.dumps({
-        "autor": autor,
-        "algoritmo": "ML-DSA-87",
-        "estandar": "FIPS 204",
+        "autor": autor, "algoritmo": "ML-DSA-87", "estandar": "FIPS 204",
         "generado_utc": datetime.now(timezone.utc).isoformat(),
-        "pk_bytes": len(pk),
-        "sk_bytes": len(sk),
+        "pk_bytes": len(pk), "sk_bytes": len(sk),
     }, indent=2))
     print("  priv: " + str(priv) + " (" + str(len(sk)) + " bytes)")
     print("  pub:  " + str(pub) + " (" + str(len(pk)) + " bytes)")
 
-def firmar(ruta, autor):
+def firmar(ruta, autor, sello_id=None):
     priv, pub, meta = paths(autor)
     if not priv.exists():
         print("  no hay clave para " + autor)
@@ -45,7 +42,10 @@ def firmar(ruta, autor):
     digest = hashlib.sha3_256(contenido).digest()
     sk = priv.read_bytes()
     firma = ML_DSA_87.sign(sk, digest)
-    sid = hashlib.sha3_256(digest).hexdigest()[:16]
+
+    # Si nos pasan sello_id, lo usamos. Si no, lo derivamos del digest.
+    sid = sello_id if sello_id else hashlib.sha3_256(digest).hexdigest()[:16]
+
     artefacto = {
         "sello_id": sid,
         "autor": autor,
@@ -71,25 +71,25 @@ def verificar(ruta, autor):
         return False
     contenido = Path(ruta).read_bytes()
     digest = hashlib.sha3_256(contenido).digest()
-    sid = hashlib.sha3_256(digest).hexdigest()[:16]
-    firma_path = SELLOS / (sid + ".firma.json")
-    if not firma_path.exists():
-        print("  no hay firma para " + sid)
-        return False
-    artefacto = json.loads(firma_path.read_text())
-    firma = bytes.fromhex(artefacto["firma_hex"])
-    pk = pub.read_bytes()
-    ok = ML_DSA_87.verify(pk, digest, firma)
-    print("  " + ("VALIDA" if ok else "INVALIDA"))
-    print("  sello_id: " + sid)
-    print("  autor:    " + autor)
-    return ok
+    # Buscar cualquier .firma.json que corresponda a este digest
+    for f in SELLOS.glob("*.firma.json"):
+        artefacto = json.loads(f.read_text())
+        if artefacto.get("digest_sha3") == digest.hex():
+            firma = bytes.fromhex(artefacto["firma_hex"])
+            pk = pub.read_bytes()
+            ok = ML_DSA_87.verify(pk, digest, firma)
+            print("  " + ("VALIDA" if ok else "INVALIDA"))
+            print("  sello_id: " + artefacto["sello_id"])
+            print("  autor:    " + autor)
+            return ok
+    print("  no hay firma para este contenido")
+    return False
 
 def main():
     if len(sys.argv) < 2:
         print("uso:")
         print("  firmar.py init [autor]")
-        print("  firmar.py sign <archivo> [autor]")
+        print("  firmar.py sign <archivo> [autor] [sello_id]")
         print("  firmar.py verify <archivo> [autor]")
         sys.exit(2)
     cmd = sys.argv[1]
@@ -98,7 +98,8 @@ def main():
         generar_claves(autor)
     elif cmd == "sign":
         autor = sys.argv[3] if len(sys.argv) > 3 else AUTOR_DEFAULT
-        firmar(sys.argv[2], autor)
+        sello_id = sys.argv[4] if len(sys.argv) > 4 else None
+        firmar(sys.argv[2], autor, sello_id)
     elif cmd == "verify":
         autor = sys.argv[3] if len(sys.argv) > 3 else AUTOR_DEFAULT
         ok = verificar(sys.argv[2], autor)
