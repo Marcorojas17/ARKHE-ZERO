@@ -1,31 +1,13 @@
-# 🗂️ projects/ · Portfolio del Legado
-
-## 🜂 Los 11 proyectos
-
-| Proyecto            | Descripción                                      |
-|---------------------|--------------------------------------------------|
-| `acta/`             | Actas notariales firmadas + sellos               |
-| `bobeda/`           | Bóveda histórica (grafía antigua del sistema)    |
-| `boveda/`           | Bóveda criptográfica · HSM · claves              |
-| `cymatic/`          | Cymatic Studio · geometría sagrada + GPU         |
-| `dmd-33/`           | Trazabilidad forense DMD-33                      |
-| `evidence-os/`      | Sistema operativo de evidencia                   |
-| `genesis-miner/`    | Minería de génesis (acta fundacional)            |
-| `k4-framework/`     | Framework K4 (4 capas operativas)                |
-| `kronos-vault/`     | Vault del sistema KRONOS                         |
-| `md33/`             | Manual de trazabilidad forense MD-33             |
-| `yejida/`           | Mandalas · Kabbalah 2036 · 11 dimensiones        |
-
-## 🜃 Estado general
-
-```text
-╔══════════════════════════════════════════════════════════════╗
-║  PROYECTOS ACTIVOS   ·  11                                   ║
-║  PROYECTOS EN DISEÑO ·  2  (evidence-os, kronos-vault)       ║
-║  PROYECTOS OPERATIVOS·  9                                    ║
-╚══════════════════════════════════════════════════════════════╝
-```
-
----
-
-`◯_● · 51/49/100 · KRONOS · projects`
+# 📁 PORTFOLIO DEL LEGADO · 11 Proyectos
+01. KRONOS · Verificación criptográfica Local-First
+02. MD-33 · Trazabilidad forense
+03. CYMATIC · Visualización musical cuántica
+04. YEJIDÁ · Mandalas Kabbalah 2036
+05. DESPACHO · Anclaje legal y físico
+06. MARCO.MCP · Substrato cognitivo
+07. BÓVEDA DE VOZ · Identidad sonora
+08. EVIDENCE OS · Sistema de evidencia
+09. ARKHÉ CORE · Núcleo 24 secciones
+10. YEJIDÁ 2036 · Visión a futuro
+11. KTP-001 · Kronos Transfer Protocol
+Firma: ◯_● · 51/49/100 · SCDR-001
