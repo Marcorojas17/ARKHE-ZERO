@@ -1,103 +1,37 @@
-# ═══════════════════════════════════════════════════════════════
-#  ▓▒░ .GITIGNORE · ARKHÉ ZERO · ◯_● · 51/49/100 ░▒▓
-# ═══════════════════════════════════════════════════════════════
-
-# ─── Node ────────────────────────────────────────────────────────
-node_modules/
-dist/
-build/
-.next/
-out/
-.npm/
-.pnpm-store/
-*.tsbuildinfo
-npm-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# ─── Python ──────────────────────────────────────────────────────
-__pycache__/
-*.py[cod]
-*.egg-info/
-.venv/
-venv/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-.coverage
-htmlcov/
-
-# ─── Entorno y secretos ──────────────────────────────────────────
-.env
-.env.local
-.env.*.local
+# Secretos y claves
 *.pem
 *.key
-secrets/
-vault/
-.llaves/
-07-LLAVES/ATESTACIONES/*.key
+id_rsa*
+id_ed25519*
+.secrets/
 
-# ─── Índice Cero (CRÍTICO: nunca subir) ──────────────────────────
-!*.example
-*.hash
-*.sig
-*.ml-dsa
-*.ml-kem
-*.slh-dsa
-
-# ─── IDE / editor ────────────────────────────────────────────────
-.vscode/*
-!.vscode/settings.json
-!.vscode/extensions.json
-.idea/
-*.swp
-*.swo
-*~
-*.sublime-*
-
-# ─── SO ──────────────────────────────────────────────────────────
-.DS_Store
-Thumbs.db
-desktop.ini
-*.lnk
-
-# ─── Build artifacts ─────────────────────────────────────────────
-coverage/
-.nyc_output/
-*.lcov
-
-# ─── Logs ────────────────────────────────────────────────────────
-logs/*.log
+# Datos locales
+logs/
+backups/
 *.log
-!logs/log.json
 
-# ─── Backup y temporales ─────────────────────────────────────────
-backup/
+# Sobre privado de sellos (contiene salt)
+# Descomenta si el repo es público:
+# testimonio/sellos/*.json
+
+# Python
+__pycache__/
+*.pyc
+
+# iSH / Alpine
+.apk/
+
+# Backups locales (nunca al repo)
+arkhe-*.tar.gz
+*.tar.gz
 *.bak
-*.tmp
-*.orig
-*.rej
+backups/
+testimonio/sellos/*.json
 
-# ─── Base de datos local ─────────────────────────────────────────
-*.sqlite
-*.sqlite3
-*.db
+# Backups locales pesados (nunca al repo)
+backups/
+arkhe-*.tar.gz
+*.tar.gz
 
-# ─── Docker ──────────────────────────────────────────────────────
-.docker/
-docker-compose.override.yml
-
-# ─── Ethereum / Foundry ──────────────────────────────────────────
-cache/
-out/
-broadcast/
-deployments/localhost.json
-
-# ─── Kontratos de test ───────────────────────────────────────────
-contracts/test/
-
-# ─── Archive (nunca ignorar) ─────────────────────────────────────
-!archive/
-
-# ◯_● · 51/49/100 · KRONOS
+# Sobres privados de sellos (salt_hex)
+testimonio/sellos/*.json
