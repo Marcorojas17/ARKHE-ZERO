@@ -23,3 +23,8 @@ testimonio/sellos/*.json
 # Python
 __pycache__/
 *.pyc
+
+# Claves privadas post-cuánticas (NUNCA al repo)
+testimonio/claves/*.priv
+testimonio/claves/*.pub
+testimonio/claves/*.meta.json
