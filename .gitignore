@@ -28,3 +28,11 @@ __pycache__/
 testimonio/claves/*.priv
 testimonio/claves/*.pub
 testimonio/claves/*.meta.json
+# ARKHÉ ZERO · No subir archivos pesados a git
+modelos/*.gguf
+*.tar.gz
+*.tar.gz.sha256
+*.bak
+__pycache__/
+*.pyc
+*.sig
