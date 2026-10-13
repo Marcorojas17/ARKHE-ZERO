@@ -1856,6 +1856,44 @@ window.addEventListener('load', () => {
   // Toast de bienvenida
   setTimeout(() => toast('◯_● Sistema ARKHÉ ZERO operativo · 51/49/100'), 500);
 });
+
+async function hunterScanReal(){
+  const out = document.getElementById("hunter-output");
+  if(!out) return;
+  out.innerHTML = "";
+  const add = (t, c) => {
+    const l = document.createElement("div");
+    l.className = "term-line " + (c || "term-out");
+    l.textContent = t;
+    out.appendChild(l);
+    out.scrollTop = out.scrollHeight;
+  };
+  add("> [HUNTER-096] Escaneo REAL iniciado...", "term-cyan");
+  try {
+    const r = await fetch("http://127.0.0.1:5001/api/scan", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({target: "127.0.0.1"})
+    });
+    const data = await r.json();
+    add("> Target: " + data.target, "term-out");
+    add("> Puerto 22  (SSH)    · " + (data.abiertos.includes(22) ? "ABIERTO" : "cerrado"), data.abiertos.includes(22) ? "term-warn" : "term-info");
+    add("> Puerto 80  (HTTP)   · " + (data.abiertos.includes(80) ? "ABIERTO" : "cerrado"), data.abiertos.includes(80) ? "term-warn" : "term-info");
+    add("> Puerto 443 (HTTPS)  · " + (data.abiertos.includes(443) ? "ABIERTO" : "cerrado"), data.abiertos.includes(443) ? "term-warn" : "term-info");
+    add("> Puerto 8080 (ARKHÉ)· " + (data.abiertos.includes(8080) ? "ABIERTO" : "cerrado"), data.abiertos.includes(8080) ? "term-warn" : "term-info");
+    add("> Puerto 5001 (IA)   · " + (data.abiertos.includes(5001) ? "ABIERTO" : "cerrado"), data.abiertos.includes(5001) ? "term-warn" : "term-info");
+    add("> Total escaneados: " + data.total, "term-info");
+    if(data.abiertos.length > 0){
+      add("> ◯_● Puertos abiertos: " + data.abiertos.join(", "), "term-warn");
+    }
+    add("> ◯_● ESCANEO COMPLETO · 51/49/100", "term-warn");
+  } catch(e) {
+    add("> [HUNTER-096] Error: " + e.message, "term-err");
+    add("> Asegúrate de que api_scan.py esté corriendo", "term-info");
+    add("> Comando: nohup python3 ~/arkhe-zero/ia/api_scan.py &", "term-cyan");
+  }
+}
+
 </script>
 
 </body>
