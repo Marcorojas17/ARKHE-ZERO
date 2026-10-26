@@ -1,6 +1,3 @@
-# ═══════════════════════════════════════════════════════════════
-#  ▓▒░ DEPLOY PAGES · ARKHÉ ZERO · ◯_● ░▒▓
-# ═══════════════════════════════════════════════════════════════
 name: Deploy to GitHub Pages
 
 on:
@@ -26,17 +23,10 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v6
 
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./
-          destination: ./_site
-
-      - name: Add seal to output
-        run: echo "◯_● · 51/49/100" > ./_site/SEAL
-
-      - name: Upload artifact
+      - name: Upload site as artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
 
   deploy:
     environment:
