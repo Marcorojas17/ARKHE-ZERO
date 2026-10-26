@@ -9,6 +9,7 @@ GPG fingerprint: 0B903A7613F4D71B93C12EBE89EEB1D1177BE286
 Signed artifacts
 ----------------
 arkhe-chain-v1.txt  sha256=1852327e7e0a028a1da95d692470001019257382840d5959a02e92d0553d7deb
+chain.log           sha256=46bdfa30370f44e7b41c374d1b07c7f3f1ac45cb351d795fe7514d9aea2a8112
 arkhe-chain-v1.md   sha256=9178782490cbe5aa1b3d58844523c819653b111e950219e8704c1e5ab9e857ce
 
 Public URLs
