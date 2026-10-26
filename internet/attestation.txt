@@ -1,0 +1,29 @@
+ARKHE-chain-v1 · Attestation of Publication
+==========================================
+
+Date (local):   2026-10-26T01:38:45Z
+Author:         Marco Antonio Rojas Valdovinos
+Email:          marco.a.rojas.v@hotmail.com
+GPG fingerprint: 0B903A7613F4D71B93C12EBE89EEB1D1177BE286
+
+Signed artifacts
+----------------
+arkhe-chain-v1.txt  sha256=1852327e7e0a028a1da95d692470001019257382840d5959a02e92d0553d7deb
+arkhe-chain-v1.md   sha256=9178782490cbe5aa1b3d58844523c819653b111e950219e8704c1e5ab9e857ce
+
+Public URLs
+-----------
+https://marcorojas17.github.io/ARKHE-ZERO/internet/arkhe-chain-v1.txt
+https://marcorojas17.github.io/ARKHE-ZERO/internet/arkhe-chain-v1.txt.asc
+https://marcorojas17.github.io/ARKHE-ZERO/internet/arkhe-chain-v1.md
+https://marcorojas17.github.io/ARKHE-ZERO/internet/arkhe-chain-v1.md.asc
+
+How to verify
+-------------
+  curl -sO https://marcorojas17.github.io/ARKHE-ZERO/internet/arkhe-chain-v1.txt
+  curl -sO https://marcorojas17.github.io/ARKHE-ZERO/internet/arkhe-chain-v1.txt.asc
+  sha256sum arkhe-chain-v1.txt          # must match sha256 above
+  gpg --verify arkhe-chain-v1.txt.asc arkhe-chain-v1.txt
+  gpg --fingerprint 0B903A7613F4D71B93C12EBE89EEB1D1177BE286  # must match fingerprint above
+
+This attestation is itself signed.
