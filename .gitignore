@@ -1,38 +1,13 @@
-# Secretos y claves
-*.pem
-*.key
-id_rsa*
-id_ed25519*
-.secrets/
-
-# Datos locales
-logs/
-backups/
+node_modules/
+marco.mcp/node_modules/
+dist/
+out/
+build/
+coverage/
+.env
+.env.*
 *.log
-
-# Backups pesados (nunca al repo)
-*.tar.gz
-*.bak
-
-# Sobres privados de sellos (contienen salt_hex)
-testimonio/sellos/*.json
-
-# Respaldos de .git viejos
-.git-viejo-*
-
-# Python
 __pycache__/
 *.pyc
-
-# Claves privadas post-cuánticas (NUNCA al repo)
-testimonio/claves/*.priv
-testimonio/claves/*.pub
-testimonio/claves/*.meta.json
-# ARKHÉ ZERO · No subir archivos pesados a git
-modelos/*.gguf
-*.tar.gz
-*.tar.gz.sha256
-*.bak
-__pycache__/
-*.pyc
-*.sig
+.venv/
+.DS_Store
