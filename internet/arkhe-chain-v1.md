@@ -117,3 +117,21 @@ marco.a.rojas.v@hotmail.com
 GPG: `0B903A7613F4D71B93C12EBE89EEB1D1177BE286`
 
 *[ End of ARKHE-chain-v1 · very little of what is here is firm ]*
+
+
+---
+
+## 9. Manifest (optional)
+
+An issuer MAY publish a `manifest.json` alongside `chain.log` with declared algorithms and issuer metadata. If present, it MUST be signed as `manifest.json.asc`. Verifiers that do not understand `manifest.json` MUST ignore it.
+
+Required fields in `manifest.json`:
+- `v` (string): manifest version, `"1.0"`.
+- `alg.hash` (string): hash algorithm, e.g. `"sha256"`.
+- `alg.signature` (string): signature algorithm, e.g. `"gpg-rsa4096"`.
+- `issuer.name` (string): issuer's display name.
+- `issuer.gpg_fingerprint` (string): 40-hex fingerprint.
+- `chain.filename` (string): chain file name, default `"chain.log"`.
+- `chain.spec_version` (string): e.g. `"ARKHE-chain-v1"`.
+
+This allows future algorithm agility without breaking the v1 chain format.
