@@ -84,8 +84,17 @@
     "idioma_oficial": "es"
   },
   "revocacion": {
-    "iniciada_por": ["creador", "operador", "tribunal", "guardianes"],
-    "causas": ["violacion_contrato", "danos_reiterados", "inactividad_90d"],
+    "iniciada_por": [
+      "creador",
+      "operador",
+      "tribunal",
+      "guardianes"
+    ],
+    "causas": [
+      "violacion_contrato",
+      "danos_reiterados",
+      "inactividad_90d"
+    ],
     "procedimiento": "on-chain vote + tribunal approval",
     "efectos": [
       "congelacion_colateral",
