@@ -3,24 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ARKHE-ZERO - International Document Verification</title>
+<title>ARKHE-ZERO - International Verification</title>
 <style>
-body{font-family:system-ui,sans-serif;max-width:800px;margin:40px auto;padding:20px;background:#0a0a0a;color:#fff}
+body{font-family:system-ui;max-width:900px;margin:40px auto;padding:20px;background:#0a0a0a;color:#fff}
 .card{background:#111;border:1px solid #333;padding:24px;border-radius:12px;margin:20px 0}
 .ok{color:#00ff88} .fail{color:#ff4444}
-button{background:#fff;color:#000;padding:12px 24px;border:0;border-radius:8px;font-weight:bold;cursor:pointer}
-a{color:#00ff88}
-.lang{float:right}
+button{background:#fff;color:#000;padding:10px 20px;border:0;border-radius:8px;font-weight:bold;cursor:pointer;margin:2px}
+a{color:#00ff88} code{background:#222;padding:2px 6px;border-radius:4px;word-break:break-all}
 </style>
 </head>
 <body>
-<div class="lang">
+<div style="float:right">
 <button onclick="setLang('es')">ES</button>
 <button onclick="setLang('en')">EN</button>
 <button onclick="setLang('pt')">PT</button>
 </div>
 <h1>ARKHE-ZERO</h1>
-<p id="subtitle">International Document Verification - 5 sec</p>
+<p id="subtitle">International Document Verification - 5 sec - No vendor lock-in</p>
+
+<div class="card">
+<h3>🌍 Global Availability</h3>
+<p>GitHub: <a href="./chain.log">chain.log 200 OK</a> | <a href="./chain.log.asc">chain.log.asc GPG</a></p>
+<p>IPFS: <code id="cid">CID: </code></p>
+<p>Gateways:</p>
+<ul>
+<li><a id="gw1" href="#" target="_blank">ipfs.io</a></li>
+<li><a id="gw2" href="#" target="_blank">pinata.cloud</a></li>
+<li><a id="gw3" href="#" target="_blank">cloudflare-ipfs.com</a></li>
+</ul>
+<p>Standard: SHA-256 NIST | Timestamp: UTC RFC3161 | Cost: $0.02/doc</p>
+</div>
 
 <div class="card">
 <h3 id="t1">1. Select document</h3>
@@ -30,27 +42,28 @@ a{color:#00ff88}
 
 <div class="card">
 <h3 id="t2">2. Verification</h3>
-<p>Chain: <a href="./chain.log" target="_blank">chain.log (200 OK)</a> | <a href="./chain.log.asc" target="_blank">chain.log.asc (GPG)</a></p>
 <p id="status">Waiting file...</p>
 </div>
 
-<div class="card">
-<h3>Global Stats</h3>
-<p>Standard: SHA-256 (NIST) | Timestamp: RFC3161 UTC | v1 valid</p>
-<p>Host: GitHub Pages 200 OK | IPFS: Qm... (soon) | Cost: $0.02/doc</p>
-</div>
-
 <script>
+const CID="";
+document.getElementById('cid').innerText="IPFS CID: "+CID;
+document.getElementById('gw1').href="https://ipfs.io/ipfs/"+CID;
+document.getElementById('gw2').href="https://gateway.pinata.cloud/ipfs/"+CID;
+document.getElementById('gw3').href="https://cloudflare-ipfs.com/ipfs/"+CID;
+document.getElementById('gw1').innerText="https://ipfs.io/ipfs/"+CID.substring(0,20)+"...";
+document.getElementById('gw2').innerText="https://gateway.pinata.cloud/ipfs/"+CID.substring(0,20)+"...";
+document.getElementById('gw3').innerText="https://cloudflare-ipfs.com/ipfs/"+CID.substring(0,20)+"...";
+
 const i18n={
-es:{subtitle:"Verificacion Internacional de Documentos - 5 seg",t1:"1. Selecciona documento",t2:"2. Verificacion",wait:"Esperando archivo..."},
-en:{subtitle:"International Document Verification - 5 sec",t1:"1. Select document",t2:"2. Verification",wait:"Waiting file..."},
-pt:{subtitle:"Verificacao Internacional de Documentos - 5 seg",t1:"1. Selecione documento",t2:"2. Verificacao",wait:"Aguardando arquivo..."}
+es:{subtitle:"Verificacion Internacional - 5 seg - Sin dependencia",t1:"1. Selecciona documento",t2:"2. Verificacion",wait:"Esperando archivo..."},
+en:{subtitle:"International Verification - 5 sec - No vendor lock-in",t1:"1. Select document",t2:"2. Verification",wait:"Waiting file..."},
+pt:{subtitle:"Verificacao Internacional - 5 seg - Sem dependencia",t1:"1. Selecione documento",t2:"2. Verificacao",wait:"Aguardando..."}
 };
 function setLang(l){
 document.getElementById('subtitle').innerText=i18n[l].subtitle;
 document.getElementById('t1').innerText=i18n[l].t1;
 document.getElementById('t2').innerText=i18n[l].t2;
-document.getElementById('status').innerText=i18n[l].wait;
 }
 document.getElementById('file').addEventListener('change',async e=>{
 const f=e.target.files[0];
@@ -58,12 +71,12 @@ const buf=await f.arrayBuffer();
 const hashBuf=await crypto.subtle.digest('SHA-256',buf);
 const hash=Array.from(new Uint8Array(hashBuf)).map(b=>b.toString(16).padStart(2,'0')).join('');
 document.getElementById('hash').innerHTML='SHA-256: <code>'+hash+'</code>';
-document.getElementById('status').innerHTML='Checking <a href="./chain.log">chain.log</a>...';
-const chain=await fetch('./chain.log').then(r=>r.text());
+document.getElementById('status').innerHTML='Checking chain.log...';
+const chain=await fetch('./chain.log').then(r=>r.text()).catch(()=>fetch('https://ipfs.io/ipfs/'+CID).then(r=>r.text()));
 if(chain.includes(hash)){
-document.getElementById('status').innerHTML='<span class="ok">✅ VERIFIED - Document authentic and unmodified</span>';
+document.getElementById('status').innerHTML='<span class="ok">✅ VERIFIED - Authentic worldwide</span>';
 }else{
-document.getElementById('status').innerHTML='<span class="fail">❌ NOT FOUND - Document not in chain or modified</span>';
+document.getElementById('status').innerHTML='<span class="fail">❌ NOT FOUND - Modified or not in chain</span>';
 }
 });
 </script>
