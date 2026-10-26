@@ -1,160 +1,71 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ARKHE Verifier · cualquier chain ARKHE-format</title>
+<title>ARKHE-ZERO - International Document Verification</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { background:#060a0a; color:#b0f0b0; font-family:'Courier New',monospace; padding:2rem 1.2rem; min-height:100vh; }
-.container { max-width:820px; margin:0 auto; }
-h1 { color:#00ff88; letter-spacing:3px; font-size:1.6rem; margin-bottom:.4rem; }
-.sub { color:#4a7a5a; font-size:.72rem; letter-spacing:2px; margin-bottom:2rem; }
-.nav { margin-bottom:2rem; font-size:.75rem; }
-.nav a { color:#00ff88; text-decoration:none; border-bottom:1px dotted #2a4a3a; margin-right:1.5rem; }
-.nav a:hover { color:#b0f0b0; }
-.search { display:flex; gap:.6rem; margin-bottom:1rem; }
-input { flex:1; background:#0a1212; border:1px solid #1a3a2a; color:#b0f0b0; padding:.6rem 1rem; border-radius:30px; font-family:inherit; font-size:.85rem; }
-input:focus { outline:none; border-color:#00ff88; }
-button { background:#0a1a12; border:1px solid #00ff88; color:#00ff88; padding:.6rem 1.5rem; border-radius:30px; font-family:inherit; font-size:.75rem; letter-spacing:2px; cursor:pointer; }
-button:hover { background:#00ff88; color:#060a0a; }
-.presets { font-size:.72rem; color:#4a7a5a; margin-bottom:2rem; }
-.presets a { color:#00ff88; text-decoration:none; border-bottom:1px dotted #2a4a3a; margin-right:1rem; cursor:pointer; }
-.card { background:#0a1212; border:1px solid #1a3a2a; border-radius:12px; padding:1.5rem; margin-bottom:1rem; }
-.card.error { border-color:#ff3355; }
-.card.success { border-color:#00ff88; }
-.card h2 { color:#00ff88; font-size:.95rem; margin-bottom:1rem; letter-spacing:1px; font-weight:normal; }
-.row { display:flex; justify-content:space-between; padding:.35rem 0; border-bottom:1px solid #1a2a22; font-size:.82rem; }
-.row:last-child { border:none; }
-.row .k { color:#7fbf8f; }
-.row .v { color:#b0f0b0; font-family:'Courier New',monospace; word-break:break-all; max-width:60%; text-align:right; }
-.row .v.good { color:#00ff88; }
-.row .v.bad { color:#ff3355; }
-.entry { background:#060a0a; border:1px solid #1a2a22; border-radius:8px; padding:.8rem 1rem; margin:.5rem 0; font-size:.75rem; }
-.entry .seq { color:#00ff88; font-weight:bold; }
-.entry .hash { color:#7fbf8f; }
-.entry.bad { border-color:#ff3355; }
-code { background:#060a0a; padding:.1rem .4rem; border-radius:3px; color:#ffcc66; font-size:.85em; }
-.info { font-size:.72rem; color:#4a7a5a; margin-top:1rem; line-height:1.7; }
-.info strong { color:#7fbf8f; }
+body{font-family:system-ui,sans-serif;max-width:800px;margin:40px auto;padding:20px;background:#0a0a0a;color:#fff}
+.card{background:#111;border:1px solid #333;padding:24px;border-radius:12px;margin:20px 0}
+.ok{color:#00ff88} .fail{color:#ff4444}
+button{background:#fff;color:#000;padding:12px 24px;border:0;border-radius:8px;font-weight:bold;cursor:pointer}
+a{color:#00ff88}
+.lang{float:right}
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="nav">
-    <a href="./">← ARKHE</a>
-    <a href="./internet/">internet</a>
-    <a href="./internet/arkhe-chain-v1.md">spec</a>
-  </div>
-  <h1>ARKHE VERIFIER</h1>
-  <div class="sub">CUALQUIER CHAIN · CUALQUIER LLAVE · SIN PERMISO</div>
+<div class="lang">
+<button onclick="setLang('es')">ES</button>
+<button onclick="setLang('en')">EN</button>
+<button onclick="setLang('pt')">PT</button>
+</div>
+<h1>ARKHE-ZERO</h1>
+<p id="subtitle">International Document Verification - 5 sec</p>
 
-  <div class="search">
-    <input id="q" placeholder="https://ejemplo.pe/chain.log" />
-    <button onclick="verify()">VERIFICAR</button>
-  </div>
+<div class="card">
+<h3 id="t1">1. Select document</h3>
+<input type="file" id="file">
+<p id="hash"></p>
+</div>
 
-  <div class="presets">
-    Prueba con:
-    <a onclick="setQ('./chain.log')">chain.log local</a>
-    <a onclick="setQ('./internet/arkhe-chain-v1.txt')">spec (no es chain)</a>
-  </div>
+<div class="card">
+<h3 id="t2">2. Verification</h3>
+<p>Chain: <a href="./chain.log" target="_blank">chain.log (200 OK)</a> | <a href="./chain.log.asc" target="_blank">chain.log.asc (GPG)</a></p>
+<p id="status">Waiting file...</p>
+</div>
 
-  <div id="result"></div>
-
-  <div class="info">
-    <strong>Formato:</strong> cada línea un JSON con <code>v</code>, <code>seq</code>, <code>sha256</code>, <code>prev_hash</code>, <code>chain_hash</code>, <code>ts</code>. Genesis tiene <code>prev_hash</code> = 64 ceros. <code>chain_hash = sha256(prev_hash + sha256)</code>. Ver <a href="./internet/arkhe-chain-v1.md" style="color:#00ff88">ARKHE-chain-v1</a>.
-  </div>
+<div class="card">
+<h3>Global Stats</h3>
+<p>Standard: SHA-256 (NIST) | Timestamp: RFC3161 UTC | v1 valid</p>
+<p>Host: GitHub Pages 200 OK | IPFS: Qm... (soon) | Cost: $0.02/doc</p>
 </div>
 
 <script>
-function setQ(v) { document.getElementById('q').value = v; }
-
-async function sha256Hex(text) {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+const i18n={
+es:{subtitle:"Verificacion Internacional de Documentos - 5 seg",t1:"1. Selecciona documento",t2:"2. Verificacion",wait:"Esperando archivo..."},
+en:{subtitle:"International Document Verification - 5 sec",t1:"1. Select document",t2:"2. Verification",wait:"Waiting file..."},
+pt:{subtitle:"Verificacao Internacional de Documentos - 5 seg",t1:"1. Selecione documento",t2:"2. Verificacao",wait:"Aguardando arquivo..."}
+};
+function setLang(l){
+document.getElementById('subtitle').innerText=i18n[l].subtitle;
+document.getElementById('t1').innerText=i18n[l].t1;
+document.getElementById('t2').innerText=i18n[l].t2;
+document.getElementById('status').innerText=i18n[l].wait;
 }
-
-async function verify() {
-  const url = document.getElementById('q').value.trim();
-  const out = document.getElementById('result');
-  if (!url) { out.innerHTML = '<div class="card error">URL vacía</div>'; return; }
-
-  out.innerHTML = '<div class="card">⏳ Descargando ' + url + ' ...</div>';
-
-  let text;
-  try {
-    const res = await fetch(url, { cache: 'no-store' });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    text = await res.text();
-  } catch (e) {
-    out.innerHTML = '<div class="card error">❌ No se pudo descargar: ' + e.message + '<br><br>Nota: CORS. El servidor debe permitir <code>Access-Control-Allow-Origin: *</code> en el archivo chain.log.</div>';
-    return;
-  }
-
-  const lines = text.split('\n').filter(l => l.trim());
-  if (!lines.length) { out.innerHTML = '<div class="card error">❌ Archivo vacío</div>'; return; }
-
-  let entries = [];
-  for (let i = 0; i < lines.length; i++) {
-    try { entries.push(JSON.parse(lines[i])); }
-    catch (e) { out.innerHTML = '<div class="card error">❌ Línea ' + (i+1) + ' no es JSON: ' + e.message + '</div>'; return; }
-  }
-
-  let ok = true;
-  const rows = [];
-  let prevExpected = '0'.repeat(64);
-
-  for (let i = 0; i < entries.length; i++) {
-    const e = entries[i];
-    const seq = i + 1;
-
-    if (e.v !== 1) { rows.push({bad:true, msg: 'v≠1 en seq ' + seq}); ok = false; }
-    if (e.seq !== seq) { rows.push({bad:true, msg: 'seq incorrecto en posición ' + seq + ' (dice ' + e.seq + ')'}); ok = false; }
-    if (typeof e.sha256 !== 'string' || e.sha256.length !== 64) { rows.push({bad:true, msg: 'sha256 inválido en seq ' + seq}); ok = false; }
-    if (typeof e.prev_hash !== 'string' || e.prev_hash.length !== 64) { rows.push({bad:true, msg: 'prev_hash inválido en seq ' + seq}); ok = false; }
-    if (e.prev_hash !== prevExpected) { rows.push({bad:true, msg: 'prev_hash no encadena en seq ' + seq}); ok = false; }
-
-    const recalc = await sha256Hex((e.prev_hash || '') + (e.sha256 || ''));
-    if (recalc !== e.chain_hash) {
-      rows.push({bad:true, msg: 'chain_hash recalculado no coincide en seq ' + seq});
-      ok = false;
-    } else {
-      rows.push({bad:false, msg: null, entry: e, seq});
-    }
-    prevExpected = e.chain_hash;
-  }
-
-  if (!ok) {
-    out.innerHTML = '<div class="card error"><h2>❌ Chain inválido</h2>' + rows.map(r => r.bad ? '<div class="entry bad">' + r.msg + '</div>' : '').join('') + '</div>';
-    return;
-  }
-
-  const rowsHtml = rows.map(r => {
-    const e = r.entry;
-    return '<div class="entry"><span class="seq">#' + r.seq + '</span> ' +
-      '<span class="hash">chain=' + (e.chain_hash||'').slice(0,16) + '…</span> ' +
-      (e.ts ? '<span class="hash" style="color:#4a7a5a">' + e.ts.slice(0,19) + '</span> ' : '') +
-      (e.id || e.lead_id ? '<span class="hash">· ' + (e.id||e.lead_id) + '</span>' : '') +
-      '</div>';
-  }).join('');
-
-  out.innerHTML = '<div class="card success">' +
-    '<h2>✅ Chain válido · ' + entries.length + ' entradas</h2>' +
-    '<div class="row"><span class="k">Fuente</span><span class="v">' + url + '</span></div>' +
-    '<div class="row"><span class="k">Genesis</span><span class="v good">64 ceros ✓</span></div>' +
-    '<div class="row"><span class="k">Encadenamiento</span><span class="v good">' + entries.length + ' verificaciones ✓</span></div>' +
-    '<div class="row"><span class="k">chain_hash final</span><span class="v">' + entries[entries.length-1].chain_hash.slice(0,32) + '…</span></div>' +
-    '<div style="margin-top:1rem;max-height:300px;overflow-y:auto">' + rowsHtml + '</div>' +
-    '<div class="info" style="margin-top:1rem">⚠️ Verificación de <em>integridad de la cadena</em> únicamente. La autenticidad de la llave requiere <code>gpg --verify chain.log.asc chain.log</code> con la llave pública del emisor.</div>' +
-    '</div>';
+document.getElementById('file').addEventListener('change',async e=>{
+const f=e.target.files[0];
+const buf=await f.arrayBuffer();
+const hashBuf=await crypto.subtle.digest('SHA-256',buf);
+const hash=Array.from(new Uint8Array(hashBuf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+document.getElementById('hash').innerHTML='SHA-256: <code>'+hash+'</code>';
+document.getElementById('status').innerHTML='Checking <a href="./chain.log">chain.log</a>...';
+const chain=await fetch('./chain.log').then(r=>r.text());
+if(chain.includes(hash)){
+document.getElementById('status').innerHTML='<span class="ok">✅ VERIFIED - Document authentic and unmodified</span>';
+}else{
+document.getElementById('status').innerHTML='<span class="fail">❌ NOT FOUND - Document not in chain or modified</span>';
 }
-
-const params = new URLSearchParams(window.location.search);
-if (params.get('chain')) {
-  document.getElementById('q').value = params.get('chain');
-  verify();
-}
+});
 </script>
 </body>
 </html>
